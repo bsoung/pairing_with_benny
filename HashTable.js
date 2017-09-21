@@ -74,6 +74,7 @@ class LinkedList {
   }
 
   reverse() {
+    // O(n)
     let currentNode = this.headNode;
     let next = null;
     let previousNode = null;
@@ -139,3 +140,36 @@ myList.printList();
 //
 //
 // --before reverse--'
+
+/*
+########### HASH TABLE ############
+ */
+
+class HashTable {
+  constructor() {
+    this.buckets = [];
+    this.bucketLength = this.buckets.length;
+  }
+
+  // initialize() {
+  //   this.bucke
+  //   const linkedList = new LinkedList();
+
+
+  // }
+
+  hash(str) {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    return alphabet.indexOf(str[0].toLowerCase());
+  }
+
+  insert()
+}
+
+
+
+
+
+
+
+
