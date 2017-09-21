@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 class Node {
   constructor(data) {
@@ -119,22 +119,22 @@ const myList = new LinkedList();
 myList.initialize();
 
 // adding node to end
-myList.addNode({ name: "hello", data: "hello" });
+myList.addNode({ name: 'hello', data: 'hello' });
 // printing
 // myList.printList();
 
 // adding multiple nodes
-myList.addNode({ name: "my", data: "my" });
-myList.addNode({ name: "name", data: "name" });
-myList.addNode({ name: "is", data: "is" });
-myList.addNode({ name: "Benny", data: "Benny" });
+myList.addNode({ name: 'my', data: 'my' });
+myList.addNode({ name: 'name', data: 'name' });
+myList.addNode({ name: 'is', data: 'is' });
+myList.addNode({ name: 'Benny', data: 'Benny' });
 
 // adding nodes at a chosen index
-myList.addNodeAtIndex({ name: "there", data: "there" }, 1);
-myList.addNodeAtIndex({ name: "first", data: "first" }, 3);
+myList.addNodeAtIndex({ name: 'there', data: 'there' }, 1);
+myList.addNodeAtIndex({ name: 'first', data: 'first' }, 3);
 // even invalid numbers work (appends to end)
-myList.addNodeAtIndex({ name: "Song", data: "Song" }, 100000000000000000);
-myList.addNodeAtIndex({ name: "2", data: "2" }, 100000000000000001);
+myList.addNodeAtIndex({ name: 'Song', data: 'Song' }, 100000000000000000);
+myList.addNodeAtIndex({ name: '2', data: '2' }, 100000000000000001);
 // console.log("should say 'hello there my first name is Benny Song 2'");
 // myList.printList();
 
@@ -172,14 +172,15 @@ class HashTable {
     //   total += word.charCodeAt(i);
     // }
     // return total % this.bucketsArrayLength;
-    const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-    return alphabet.indexOf(word[0].toLowerCase());
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    return alphabet.indexOf(word[0].toLowerCase()) % this.bucketsArrayLength;
   }
 
   insert(data) {
     const index = this.hash(data.word);
     if (!this.buckets[index]) {
       this.buckets[index] = new LinkedList();
+      this.buckets[index].initialize();
       this.bucketsArrayLength++;
     }
 
@@ -192,8 +193,9 @@ class HashTable {
 
   balance() {
     const size = this.bucketsArrayLength;
-    let newBuckets = new Array(size * 2);
-    let bucketLength;
+    let oldBuckets = this.buckets;
+    this.buckets = [];
+    // let newBuckets = new Array(size * 2);
     let node;
 
     counter++;
@@ -217,16 +219,14 @@ class HashTable {
     // end result:
     // [*] [*] [*] [*] [*] [*] [*] [*] [*] [*] [*] [*] [*] [*]
     //             (each is half as long now)
+    //
 
-    for (let i = 0; i < 4000; i += 1) {
-      if (this.buckets[i]) {
-        newBuckets[i] = new LinkedList();
-        newBuckets[i].initialize();
-        newBuckets[2 * i] = new LinkedList();
-        newBuckets[2 * i].initialize();
-        bucketLength = newBuckets[i]._length;
-        for (let j = 0; j < this.buckets[i]._length; j++) {
-          node = this.buckets[i].findNodeByIndex(j);
+    this.bucketsArrayLength = size * 2;
+
+    for (let i = 0; i < 4000; i++) {
+      if (oldBuckets[i]) {
+        for (let j = 0; j < oldBuckets[i]._length; j++) {
+          node = oldBuckets[i].findNodeByIndex(j);
           if (node && node.name && node.data) {
             this.insert({ word: node.name, definition: node.data });
           }
@@ -234,21 +234,19 @@ class HashTable {
       }
     }
 
-    this.buckets = newBuckets;
-
-    this.bucketsArrayLength = size * 2;
+    // this.buckets = newBuckets;
   }
 
   find(word) {
     const index = this.hash(word);
     if (!this.buckets[index]) {
-      return "not found";
+      return 'not found';
     }
 
     const result = this.buckets[index].findNodeByName(word);
 
     if (!result) {
-      return "not found";
+      return 'not found';
     }
     return result;
   }
@@ -280,21 +278,21 @@ class HashTable {
 // O(n/k) where k is length of our array
 
 // insert dictionary
-const myHash = new HashTable(10000000);
-let dictionary = fs.readFileSync("./dictionary.json", "utf8");
-dictionary = JSON.parse(dictionary);
-let keys = Object.keys(dictionary);
-keys.forEach(key => {
-  myHash.insert({ word: key, definition: dictionary[key] });
-});
-// myHash.insert({ word: "eIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "jIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "tIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "yIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "gIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "gIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "sIan", definition: "a totally awesome dude" });
-// myHash.insert({ word: "fIan", definition: "a totally awesome dude" });
+const myHash = new HashTable(1);
+// let dictionary = fs.readFileSync('./dictionary.json', 'utf8');
+// dictionary = JSON.parse(dictionary);
+// let keys = Object.keys(dictionary);
+// keys.forEach(key => {
+//   myHash.insert({ word: key, definition: dictionary[key] });
+// });
+myHash.insert({ word: 'eIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'jIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'tIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'yIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'gIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'gIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'sIan', definition: 'a totally awesome dude' });
+myHash.insert({ word: 'fIan', definition: 'a totally awesome dude' });
 
 // console.log(`Definition:`, myHash.find("car"));
 // console.log(` `);
@@ -309,5 +307,24 @@ keys.forEach(key => {
 
 // myHash.renderLists();
 myHash.renderListLengths();
+console.log('called', counter, 'times');
 
-console.log("called", counter, "times");
+// eIan
+// jIan
+// tIan
+// yIan
+// gIan
+// gIan
+// sIan
+// fIan
+// ----- Length of list at index 0 -----
+// 3
+// ----- Length of list at index 1 -----
+// 1
+// ----- Length of list at index 5 -----
+// 2
+// ----- Length of list at index 6 -----
+// 1
+// ----- Average List Length -----
+// 0
+// called 3 times
