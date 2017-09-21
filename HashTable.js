@@ -1,16 +1,3 @@
-// Linked List
-
-// Build a linked list node that contains the word and its
-// definition (and anything else you need)
-// Build a basic linked list class that allows you to:
-// Create the list
-// Read nodes at a particular index (add a console.log which tracks
-//   the crawler's progress or at least returns the number of steps).
-//   In the comments, state the Big-O time of this operation.
-// Insert nodes at a particular index or, separately, at the end of the
-// list (so store a reference to the last node). In the comments, state the
-// Big-O time of this operation.
-
 class Node {
   constructor(data) {
     this.data = data;
@@ -61,7 +48,7 @@ class LinkedList {
     previousNode.next = node;
   }
 
-  findNode(index) {
+  findNodeByIndex(index) {
     let counter = 0;
     let currentNode = this.headNode;
 
@@ -69,6 +56,22 @@ class LinkedList {
       currentNode = currentNode.next;
       ++counter;
     }
+
+    return currentNode;
+  }
+
+  findNodeByValue(value) {
+    let currentNode = this.headNode;
+    let counter = 2;
+
+    console.log(`Step ${counter}`);
+    while (currentNode && currentNode.data !== value) {
+      counter++;
+      console.log(`Step ${counter}`);
+      currentNode = currentNode.next;
+    }
+
+    console.log("Finished searching.");
 
     return currentNode;
   }
@@ -115,18 +118,18 @@ myList.initialize();
 // console.log("should say 'hello'");
 // myList.printList();
 
-myList.addNode('my');
-myList.addNode('name');
-myList.addNode('is');
-myList.addNode('Benny');
-
-console.log("--before reverse--'");
-myList.printList();
-
-myList.reverse();
-
-console.log("--after reverse--'");
-myList.printList();
+// myList.addNode("my");
+// myList.addNode("name");
+// myList.addNode("is");
+// myList.addNode("Benny");
+//
+// console.log("--before reverse--'");
+// myList.printList();
+//
+// myList.reverse();
+//
+// console.log("--after reverse--'");
+// myList.printList();
 
 // myList.addNodeAtIndex('there', 1);
 // myList.addNodeAtIndex('first', 3);
@@ -148,28 +151,52 @@ myList.printList();
 class HashTable {
   constructor() {
     this.buckets = [];
-    this.bucketLength = this.buckets.length;
   }
 
-  // initialize() {
-  //   this.bucke
-  //   const linkedList = new LinkedList();
-
-
-  // }
-
   hash(str) {
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
     return alphabet.indexOf(str[0].toLowerCase());
   }
 
-  insert()
+  insert(str) {
+    const index = this.hash(str);
+    if (!this.buckets[index]) {
+      this.buckets[index] = new LinkedList();
+    }
+    this.buckets[index].addNode(str);
+  }
+
+  find(str) {
+    console.log("Step 1 (hashing...)");
+    const index = this.hash(str);
+    if (!this.buckets[index]) {
+      return "not found";
+    }
+    const result = this.buckets[index].findNodeByValue(str);
+    if (!result) {
+      return "not found";
+    }
+    return result.data;
+  }
+
+  renderList() {
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i]) {
+        console.log(`----- List at index ${i} -----`);
+        this.buckets[i].printList();
+      }
+    }
+  }
 }
 
+const myHash = new HashTable();
 
+myHash.insert("baby");
+myHash.insert("Ian");
+myHash.insert("gorilla");
+myHash.insert("growth");
+myHash.insert("gorgophone");
+myHash.insert("ZZZZ");
 
-
-
-
-
-
+console.log(myHash.find("Ian"));
+// myHash.renderList();
