@@ -73,6 +73,24 @@ class LinkedList {
     return currentNode;
   }
 
+  reverse() {
+    let currentNode = this.headNode;
+    let next = null;
+    let previousNode = null;
+
+    this.lastNode = this.headNode;
+
+    while (currentNode && currentNode.next) {
+      next = currentNode.next;
+      currentNode.next = previousNode;
+      previousNode = currentNode;
+      currentNode = next;
+    }
+
+    currentNode.next = previousNode;
+    this.headNode = currentNode;
+  }
+
   printList() {
     let currentNode = this.headNode;
     let previousNode = {};
@@ -87,27 +105,37 @@ class LinkedList {
 }
 
 const myList = new LinkedList();
-console.log("empty list?");
-myList.printList();
+// console.log('empty list?');
+// myList.printList();
 
 myList.initialize();
-myList.addNode("hello");
+// myList.addNode('hello');
 
-console.log("should say 'hello'");
+// console.log("should say 'hello'");
+// myList.printList();
+
+myList.addNode('my');
+myList.addNode('name');
+myList.addNode('is');
+myList.addNode('Benny');
+
+console.log("--before reverse--'");
 myList.printList();
 
-myList.addNode("my");
-myList.addNode("name");
-myList.addNode("is");
-myList.addNode("Benny");
+myList.reverse();
 
-console.log("should say 'hello my name is benny'");
+console.log("--after reverse--'");
 myList.printList();
 
-myList.addNodeAtIndex("there", 1);
-myList.addNodeAtIndex("first", 3);
-myList.addNodeAtIndex("Song", 100000000000000000);
-myList.addNodeAtIndex("2", 100000000000000001);
+// myList.addNodeAtIndex('there', 1);
+// myList.addNodeAtIndex('first', 3);
+// myList.addNodeAtIndex('Song', 100000000000000000);
+// myList.addNodeAtIndex('2', 100000000000000001);
 
-console.log("should say 'hello there my name is benny'");
-myList.printList();
+// console.log("should say 'hello there my name is benny'");
+// myList.printList();
+
+// console.log("should say 'first'", myList.findNode(3));
+//
+//
+// --before reverse--'
