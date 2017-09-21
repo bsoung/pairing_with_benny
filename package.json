@@ -1,0 +1,19 @@
+{
+  "name": "pairing_with_benny",
+  "version": "1.0.0",
+  "description": "Names: Ian Halverson and Benny",
+  "main": "HashTable.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsoung/pairing_with_benny.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bsoung/pairing_with_benny/issues"
+  },
+  "homepage": "https://github.com/bsoung/pairing_with_benny#readme"
+}

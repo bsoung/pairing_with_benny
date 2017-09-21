@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 class Node {
   constructor(data) {
     this.data = data;
@@ -65,15 +67,15 @@ class LinkedList {
     let counter = 2;
 
     console.log(`Step ${counter}`);
-    while (currentNode && currentNode.data !== value) {
+    while (currentNode && currentNode.data.name !== value) {
       counter++;
       console.log(`Step ${counter}`);
       currentNode = currentNode.next;
     }
 
-    console.log("Finished searching.");
+    console.log('Finished searching.');
 
-    return currentNode;
+    return !currentNode ? null : currentNode.data.data;
   }
 
   reverse() {
@@ -154,29 +156,32 @@ class HashTable {
   }
 
   hash(str) {
-    const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
     return alphabet.indexOf(str[0].toLowerCase());
   }
 
-  insert(str) {
-    const index = this.hash(str);
+  insert(data) {
+    // console.log(data, '????? insert');
+    const index = this.hash(data.name);
     if (!this.buckets[index]) {
       this.buckets[index] = new LinkedList();
     }
-    this.buckets[index].addNode(str);
+    this.buckets[index].addNode(data);
   }
 
   find(str) {
-    console.log("Step 1 (hashing...)");
+    console.log('Step 1 (hashing...)');
     const index = this.hash(str);
     if (!this.buckets[index]) {
-      return "not found";
+      return 'not found';
     }
+
     const result = this.buckets[index].findNodeByValue(str);
+
     if (!result) {
-      return "not found";
+      return 'not found';
     }
-    return result.data;
+    return result;
   }
 
   renderList() {
@@ -191,12 +196,31 @@ class HashTable {
 
 const myHash = new HashTable();
 
-myHash.insert("baby");
-myHash.insert("Ian");
-myHash.insert("gorilla");
-myHash.insert("growth");
-myHash.insert("gorgophone");
-myHash.insert("ZZZZ");
+// myHash.insert({ name: 'baby', data: 'baby' });
+// myHash.insert({ name: 'Ian', data: 'Ian' });
+// myHash.insert({ name: 'gorilla', data: 'gorilla' });
+// myHash.insert({ name: 'growth', data: 'growth' });
+// myHash.insert({ name: 'gorgophone', data: 'gorgophone' });
+// myHash.insert({ name: 'ZZZZ', data: 'ZZZZ' });
 
-console.log(myHash.find("Ian"));
-// myHash.renderList();
+// console.log(myHash.find('Ian'));
+
+let dictionary = fs.readFileSync('./dictionary.json', 'utf8');
+dictionary = JSON.parse(dictionary);
+
+let keys = Object.keys(dictionary);
+
+keys.forEach(key => {
+  myHash.insert({ name: key, data: dictionary[key] });
+});
+
+// console.log(myHash.find('about'));
+console.log(myHash.find('abandonment'));
+
+
+
+
+
+
+
+
