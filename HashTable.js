@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 class Node {
   constructor(data) {
@@ -119,22 +119,22 @@ const myList = new LinkedList();
 myList.initialize();
 
 // adding node to end
-myList.addNode({ name: "hello", data: "hello" });
+myList.addNode({ name: 'hello', data: 'hello' });
 // printing
 // myList.printList();
 
 // adding multiple nodes
-myList.addNode({ name: "my", data: "my" });
-myList.addNode({ name: "name", data: "name" });
-myList.addNode({ name: "is", data: "is" });
-myList.addNode({ name: "Benny", data: "Benny" });
+myList.addNode({ name: 'my', data: 'my' });
+myList.addNode({ name: 'name', data: 'name' });
+myList.addNode({ name: 'is', data: 'is' });
+myList.addNode({ name: 'Benny', data: 'Benny' });
 
 // adding nodes at a chosen index
-myList.addNodeAtIndex({ name: "there", data: "there" }, 1);
-myList.addNodeAtIndex({ name: "first", data: "first" }, 3);
+myList.addNodeAtIndex({ name: 'there', data: 'there' }, 1);
+myList.addNodeAtIndex({ name: 'first', data: 'first' }, 3);
 // even invalid numbers work (appends to end)
-myList.addNodeAtIndex({ name: "Song", data: "Song" }, 100000000000000000);
-myList.addNodeAtIndex({ name: "2", data: "2" }, 100000000000000001);
+myList.addNodeAtIndex({ name: 'Song', data: 'Song' }, 100000000000000000);
+myList.addNodeAtIndex({ name: '2', data: '2' }, 100000000000000001);
 // console.log("should say 'hello there my first name is Benny Song 2'");
 // myList.printList();
 
@@ -158,11 +158,14 @@ myList.reverse();
 
 class HashTable {
   constructor() {
+    this.bucketSize = 0;
+    this.limit = 2;
     this.buckets = [];
+    // this.buckets.length = this.bucketSize
   }
 
   hash(word) {
-    const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
     return alphabet.indexOf(word[0].toLowerCase());
   }
 
@@ -170,20 +173,44 @@ class HashTable {
     const index = this.hash(data.word);
     if (!this.buckets[index]) {
       this.buckets[index] = new LinkedList();
+      this.bucketSize++;
     }
+
     this.buckets[index].addNode({ name: data.word, data: data.definition });
+
+    if (this.buckets[index]._length > this.limit) {
+      this.limit 
+    }
+  }
+
+  balance() {
+    let newBuckets = new Array(this.bucketSize * 2);
+    let bucketLength = newBuckets.length;
+    let node;
+
+    for (let i = 0, len = this.bucketSize; i < len; i++) {
+      for (let j = bucketLength; j > bucketLength / 2; j--) {
+        node = this.buckets[i].findNodeByIndex(j);
+        // this.buckets[i]
+      }
+    }
+
+    
+
+    newBuckets[0].
+
   }
 
   find(word) {
     const index = this.hash(word);
     if (!this.buckets[index]) {
-      return "not found";
+      return 'not found';
     }
 
     const result = this.buckets[index].findNodeByName(word);
 
     if (!result) {
-      return "not found";
+      return 'not found';
     }
     return result;
   }
@@ -216,13 +243,13 @@ class HashTable {
 
 // insert dictionary
 const myHash = new HashTable();
-let dictionary = fs.readFileSync("./dictionary.json", "utf8");
+let dictionary = fs.readFileSync('./dictionary.json', 'utf8');
 dictionary = JSON.parse(dictionary);
 let keys = Object.keys(dictionary);
 keys.forEach(key => {
   myHash.insert({ word: key, definition: dictionary[key] });
 });
-myHash.insert({ word: "Ian", definition: "a totally awesome dude" });
+myHash.insert({ word: 'Ian', definition: 'a totally awesome dude' });
 
 // console.log(`Definition:`, myHash.find("car"));
 // console.log(` `);
